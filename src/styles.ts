@@ -4,14 +4,16 @@ export const cores = {
   vermelho: '#E66767',
   rosa: '#FFEBD9',
   branco: '#FFFFFF',
-  amarelo: '#FFB930',
-  fundoClaro: '#FFF8F2'
+  dourado: '#FFB930',
+  palhaClara: '#FFF8F2',
+  fundoClaro: '#F5F5F5'
 }
 
 export const breakpoints = {
   desktop: '1024px',
   tablet: '821px',
-  mobile: '430px'
+  mobile: '430px',
+  iphone11: '414px'
 }
 export const GlobalCSS = createGlobalStyle`
 *{
@@ -23,7 +25,7 @@ export const GlobalCSS = createGlobalStyle`
 }
 
 body{
-  background-color: ${cores.fundoClaro};
+  background-color: ${cores.palhaClara};
   color: ${cores.vermelho};
 }
 `
