@@ -1,15 +1,10 @@
 import { PacmanLoader } from 'react-spinners'
+import { colors } from '../../styles'
 import { Container } from './styles'
-import { cores } from '../../styles'
 
-const Loader = () => {
-  return (
-    <>
-      <Container>
-        <PacmanLoader color={cores.vermelho} />
-      </Container>
-    </>
-  )
-}
-
+const Loader = () => (
+  <Container>
+    <PacmanLoader color={`${colors.LightSalmon}`} />
+  </Container>
+)
 export default Loader

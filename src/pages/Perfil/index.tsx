@@ -1,40 +1,37 @@
+// Recursos externos
 import { useParams } from 'react-router-dom'
-import Header from '../../components/Header'
-import Apresentacao from '../../components/Apresentacao'
-import FoodList from '../../components/FoodList'
-import Footer from '../../components/Footer'
-import { useGetRestaurantSelectedQuery } from '../../services/api'
-import Cart from '../../components/Cart'
-import Loader from '../../components/Loader'
 
-type RestaurantParams = {
+// Funções
+import { useGetFeatureEfoodQuery } from '../../services/api'
+
+// Componentes
+import Banner from '../../components/Banner'
+import Header from '../../components/Header'
+import ProductList from '../../components/ProductList'
+
+type EfoodParams = {
   id: string
 }
 
 const Perfil = () => {
-  const { id } = useParams() as RestaurantParams
-  const { data: restaurantFood } = useGetRestaurantSelectedQuery(id)
+  const { id } = useParams() as EfoodParams
+  const { data: catalogoServico, isLoading: isLoadingRestaurantMenu } =
+    useGetFeatureEfoodQuery(id)
 
-  if (restaurantFood) {
-    return (
-      <>
-        <Header />
-        <Apresentacao restaurant={restaurantFood} />
-        <FoodList
-          restaurant={restaurantFood}
-          pedido={{
-            id: 0,
-            nome: '',
-            foto: '',
-            preco: 0
-          }}
-        />
-        <Footer />
-        <Cart />
-      </>
-    )
-  }
-  return <Loader />
+  return (
+    <>
+      <Header background={'dark'} />
+
+      <Banner />
+      <ProductList
+        title=""
+        background={'dark'}
+        efoods={catalogoServico?.cardapio}
+        isCardapio
+        isLoading={isLoadingRestaurantMenu}
+      />
+    </>
+  )
 }
 
 export default Perfil

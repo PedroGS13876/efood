@@ -1,21 +1,25 @@
-import Footer from '../../components/Footer'
-import Hero from '../../components/Hero'
-import Loader from '../../components/Loader'
-import RestaurantList from '../../components/RestaurantList'
-import { useGetRestaurantsQuery } from '../../services/api'
+// Funções
+import { useGetHomePageQuery } from '../../services/api'
+
+// Componentes
+import Header from '../../components/Header'
+import ProductList from '../../components/ProductList'
 
 const Home = () => {
-  const { data: restaurants } = useGetRestaurantsQuery()
+  const { data: catalogoServico = [], isLoading: isLoadingRestaurantMenu } =
+    useGetHomePageQuery() // Define um valor padrão vazio para catalogoServico
 
-  if (restaurants) {
-    return (
-      <>
-        <Hero />
-        <RestaurantList restaurants={restaurants} />
-        <Footer />
-      </>
-    )
-  }
-  return <Loader />
+  return (
+    <>
+      <Header background="light" />
+      <ProductList
+        title=""
+        background="light"
+        efoods={catalogoServico}
+        isLoading={isLoadingRestaurantMenu}
+      />
+    </>
+  )
 }
+
 export default Home

@@ -1,27 +1,42 @@
 import styled from 'styled-components'
-import { cores } from '../../styles'
+import { colors } from '../../styles'
 
-export const FooterStyle = styled.footer`
-  background-color: ${cores.rosa};
-  text-align: center;
+export const Footers = styled.footer`
   height: 298px;
+  background-color: ${colors.BlanchedAlmond};
 `
-export const Branding = styled.img`
-  width: 125px;
-  height: 57.5px;
-  margin-top: 40px;
-`
+export const SectionFooter = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-export const SocialMedia = styled.div`
-  margin-top: 32.5px;
-  img {
-    margin-right: 8px;
+  .imagemLogo {
+    width: 125px;
+    height: 57.5px;
+    margin: 40px 0 32.5px 0;
   }
 `
-export const Disclaimer = styled.p`
-  margin: 80px auto;
+
+export const RedeSociais = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 88px;
+  height: 24px;
+  gap: 8px;
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+`
+export const Titulo = styled.h2`
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 11.72px;
+  text-align: center;
   max-width: 480px;
   width: 100%;
-  font-size: 10px;
-  font-weight: regular;
+  height: 24px;
+  margin: 80px auto 40px auto;
 `

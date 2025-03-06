@@ -1,124 +1,136 @@
 import styled from 'styled-components'
-import { breakpoints, cores } from '../../styles'
+import { Props } from '.'
+import { breakpoints, colors } from '../../styles'
+import { ButtonContainer } from '../Button/styles'
+import {
+  CardConteiner,
+  CardRestaurant,
+  ContainerDescritivo,
+  Imagem,
+  Infos
+} from '../Product/styles'
+import { TagContainer } from '../Tag/styles'
 
-export const Container = styled.div`
-  max-width: 1024px;
-  margin: 80px auto;
+export const ProductListContainer = styled.div<
+  Omit<Props, 'title' | 'efoods' | 'isLoading'>
+>`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: ${(props) =>
+    props.background === 'dark' ? '56px 0 120px 0' : '80px 0 120px 0'};
 
-  li {
-    list-style: none;
-  }
+  ${CardConteiner} {
+    width: ${(props) => (props.background === 'dark' ? '320px' : '')};
+    display: ${(props) => (props.background === 'dark' ? 'flex' : '')};
+    align-items: ${(props) => (props.background === 'dark' ? 'center' : '')};
+    justify-content: ${(props) =>
+      props.background === 'dark' ? 'center' : ''};
+    background-color: ${(props) =>
+      props.background === 'dark' ? colors.LightSalmon : ''};
+    height: ${(props) => (props.background === 'dark' ? '338px' : '')};
 
-  @media (max-width: ${breakpoints.desktop}) {
-    margin: 20px 10px;
+    ${CardRestaurant} {
+      width: ${(props) => (props.background === 'dark' ? '320px' : '')};
+      height: ${(props) => (props.background === 'dark' ? '338px' : '')};
+
+      ${Imagem} {
+        width: ${(props) => (props.background === 'dark' ? '304px' : '')};
+        height: ${(props) => (props.background === 'dark' ? '167px' : '')};
+        margin: ${(props) => (props.background === 'dark' ? '8px 8px 0' : '')};
+      }
+      ${Infos} {
+        display: ${(props) => (props.background === 'dark' ? 'none' : '')};
+      }
+      .Rating {
+        display: ${(props) => (props.background === 'dark' ? 'none' : '')};
+      }
+
+      ${ContainerDescritivo} {
+        background-color: ${(props) =>
+          props.background === 'dark' ? colors.LightSalmon : colors.white};
+        width: ${(props) => (props.background === 'dark' ? '320px' : '')};
+        height: ${(props) => (props.background === 'dark' ? '88px' : '')};
+
+        h3 {
+          color: ${(props) =>
+            props.background === 'dark'
+              ? colors.BlanchedAlmond
+              : colors.LightSalmon};
+          font-size: ${(props) =>
+            props.background === 'dark' ? '16px' : '18px'};
+          font-weight: ${(props) =>
+            props.background === 'dark' ? '900' : '700'};
+          line-height: ${(props) =>
+            props.background === 'dark' ? '18.75px' : '21.09px'};
+          margin-top: ${(props) => (props.background === 'dark' ? '0' : '')};
+          width: ${(props) => (props.background === 'dark' ? '100%' : '')};
+          height: ${(props) => (props.background === 'dark' ? '19px' : '')};
+        }
+
+        p {
+          width: ${(props) => (props.background === 'dark' ? '304px' : '')};
+          color: ${(props) =>
+            props.background === 'dark'
+              ? colors.BlanchedAlmond
+              : colors.LightSalmon};
+          height: ${(props) => (props.background === 'dark' ? '88px' : '')};
+          margin: ${(props) => (props.background === 'dark' ? '8px' : '')};
+        }
+
+        ${TagContainer} {
+          width: ${(props) => (props.background === 'dark' ? '304px' : '')};
+          padding: 0;
+        }
+
+        ${ButtonContainer} {
+          background-color: ${(props) =>
+            props.background === 'dark'
+              ? colors.BlanchedAlmond
+              : colors.LightSalmon};
+          color: ${(props) =>
+            props.background === 'dark'
+              ? colors.LightSalmon
+              : colors.BlanchedAlmond};
+          height: ${(props) => (props.background === 'dark' ? '24px' : '')};
+          margin-left: 8px;
+        }
+      }
+    }
+    @media (max-width: ${breakpoints.tablet}) {
+      align-items: center;
+      margin: 0 auto;
+    }
+
+    @media (max-width: ${breakpoints.mobile}) {
+      align-items: center;
+      margin: 0 auto;
+    }
   }
 `
-export const List = styled.ul`
+
+export const ProductListItem = styled.ul<Omit<Props, 'title' | 'efoods'>>`
+  max-width: 1024px;
+  width: 100%;
+  height: 100%;
+  /* max-height: ${(props) =>
+    props.background === 'dark' ? '708px' : '1290px'}; */
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  column-gap: 32px;
-  row-gap: 32px;
+  grid-template-columns: ${(props) =>
+    props.background === 'dark' ? '1fr 1fr 1fr' : '1fr 1fr'};
+  column-gap: ${(props) => (props.background === 'dark' ? '32px' : '80px')};
+  row-gap: ${(props) => (props.background === 'dark' ? '32px' : '48px')};
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  justify-items: center;
 
   @media (max-width: ${breakpoints.tablet}) {
     grid-template-columns: 1fr 1fr;
-    column-gap: 20px;
-    row-gap: 20px;
   }
+
   @media (max-width: ${breakpoints.mobile}) {
     grid-template-columns: 1fr;
-    margin: 40px;
-    row-gap: 20px;
   }
-`
-
-export const Modal = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-
-  &.visible {
-    display: flex;
-  }
-
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-  }
-`
-
-export const ModalContent = styled.div`
-  margin: 0 auto;
-  max-width: 1024px;
-  background-color: ${cores.vermelho};
-  display: flex;
-  flex-direction: row;
-  position: relative;
-  z-index: 3;
-
-  @media (max-width: ${breakpoints.tablet}) {
-    padding: 15px;
-  }
-`
-export const FoodImage = styled.img`
-  object-fit: cover;
-  width: 280px;
-  height: 280px;
-  margin: 32px 24px 32px 32px;
-  object-fit: cover;
-
-  @media (max-width: ${breakpoints.mobile}) {
-    display: none;
-  }
-`
-export const ModalContainer = styled.div`
-  max-width: 656px;
-  width: 100%;
-  margin-top: 32px;
-`
-
-export const FoodTitle = styled.h3`
-  font-size: 18px;
-  font-weight: 900;
-  color: ${cores.branco};
-  line-height: 21.09px;
-  display: block;
-`
-export const FoodDescription = styled.p`
-  font-size: 14px;
-  font-weight: 400;
-  color: ${cores.branco};
-  line-height: 22px;
-  width: 100%;
-  margin: 16px 0 16px 0;
-  p {
-    margin-top: 16px;
-  }
-`
-export const CloseIcon = styled.img`
-  max-width: 16px;
-  max-height: 16px;
-  width: 100%;
-  margin: 8px;
-  cursor: pointer;
-`
-export const AddCartButton = styled.button`
-  background-color: ${cores.rosa};
-  color: ${cores.vermelho};
-  border: none;
-  padding: 4px 7px;
-  font-weight: 700;
-  text-decoration: none;
-  text-align: center;
-  font-size: 14px;
-  cursor: pointer;
 `
