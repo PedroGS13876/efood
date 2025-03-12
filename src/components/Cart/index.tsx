@@ -1,60 +1,63 @@
-import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Checkout from '../../pages/Checkout'
+import * as S from './style'
 import { RootReducer } from '../../store'
-import { close, remove } from '../../store/reducers/cart'
-import { getTotalPrice, parseToBrl } from '../../utils'
-import Botao from '../Button'
-import * as S from './styles'
+import { close, removeItem, startCheckout } from '../../store/reducers/cart'
+import { priceFormat } from '../ProductList'
+import Checkout from '../Checkout'
 
 const Cart = () => {
-  const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
+  const { isOpen, pedido, isAddress, isCart } = useSelector(
+    (state: RootReducer) => state.cart
+  )
   const dispatch = useDispatch()
-  const [showCheckout, setShowCheckout] = useState(false)
-
-  const closeCart = () => {
+  const openCart = () => {
     dispatch(close())
   }
-
-  const removeItem = (id: number) => {
-    dispatch(remove(id))
+  const activeCheckout = () => {
+    if (getTotalPrice() > 0) {
+      dispatch(startCheckout())
+    } else {
+      alert('Adicione pelo menos um item no carrinho')
+    }
   }
 
-  const goToCheckout = () => {
-    setShowCheckout(true)
-    closeCart()
+  const getTotalPrice = () => {
+    return pedido.reduce((acumulator, actualValue) => {
+      return (acumulator += actualValue.preco)
+    }, 0)
   }
-
+  const remItem = (id: number) => {
+    dispatch(removeItem(id))
+  }
   return (
-    <>
-      <S.CartContainer className={isOpen ? 'isOpen' : ''}>
-        {!showCheckout && <S.Overlay onClick={closeCart} />}
-        <S.Sidebar>
-          {items.length > 0 ? (
+    <S.CartContainer className={isOpen ? 'is-open' : ''}>
+      <S.Overlay onClick={openCart} />
+      <S.Sidebar>
+        <S.CartStage className={!isCart ? 'is-checkout' : ''}>
+          {pedido.length > 0 ? (
             <>
               <ul>
-                {items.map((item) => (
-                  <S.CartItem key={item.id}>
-                    <img src={item.foto} alt={item.nome} />
-                    <div>
+                {pedido.map((item) => (
+                  <S.ItemCart key={item.id}>
+                    <S.ImageItem src={item.foto} alt="" />
+                    <S.InfosItem>
                       <h3>{item.nome}</h3>
-                      <span>{parseToBrl(item.preco)}</span>
-                    </div>
-                    <button onClick={() => removeItem(item.id)} type="button" />
-                  </S.CartItem>
+                      <span>{priceFormat(item.preco)}</span>
+                    </S.InfosItem>
+                    <S.DeleteItemButton
+                      type="button"
+                      onClick={() => remItem(item.id)}
+                    />
+                  </S.ItemCart>
                 ))}
               </ul>
-              <S.Prices>
-                Valor Total <span>{parseToBrl(getTotalPrice(items))}</span>
-              </S.Prices>
-              <Botao
-                onClick={goToCheckout}
-                type="button"
-                title="Clique aqui para continuar com a compra"
-                background="dark"
-              >
+              <S.InfosCart>
+                <p>Valor total</p>
+                <span>{priceFormat(getTotalPrice())}</span>
+              </S.InfosCart>
+              <S.AddCartButton onClick={activeCheckout}>
                 Continuar com a entrega
-              </Botao>
+              </S.AddCartButton>
             </>
           ) : (
             <p className="empty-text">
@@ -62,11 +65,10 @@ const Cart = () => {
               continuar com a compra
             </p>
           )}
-        </S.Sidebar>
-      </S.CartContainer>
-
-      {showCheckout && <Checkout onClose={() => setShowCheckout(false)} />}
-    </>
+        </S.CartStage>
+        <Checkout checkoutStart={isAddress} priceTotal={getTotalPrice()} />
+      </S.Sidebar>
+    </S.CartContainer>
   )
 }
 

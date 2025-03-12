@@ -1,40 +1,16 @@
-// Recursos externos
-import { useParams } from 'react-router-dom'
-import Loader from '../Loader'
+import * as S from './styles'
 
-// Funções
-import { useGetFeatureEfoodQuery } from '../../services/api'
-
-// Estilos
-import { ImgBanner } from './styles'
-
-type Params = {
-  id: string
+export type Props = {
+  restaurant: Restaurant
 }
-
-const Banner = () => {
-  const { id } = useParams<Params>()
-  const { data: catalogoServico, isLoading } = useGetFeatureEfoodQuery(id || '')
-
-  if (isLoading) {
-    return <Loader />
-  }
-
-  if (!catalogoServico) {
-    return (
-      <div className="container">
-        <h3>Serviço não encontrado</h3>
-      </div>
-    )
-  }
-
+const Banner = ({ restaurant }: Props) => {
   return (
-    <div className="container">
-      <ImgBanner style={{ backgroundImage: `url(${catalogoServico.capa})` }}>
-        <h3>{catalogoServico.tipo}</h3>
-        <h1>{catalogoServico.titulo}</h1>
-      </ImgBanner>
-    </div>
+    <S.Container style={{ backgroundImage: `url(${restaurant.capa})` }}>
+      <div className="container">
+        <S.Tipo>{restaurant.tipo}</S.Tipo>
+        <S.Titulo>{restaurant.titulo}</S.Titulo>
+      </div>
+    </S.Container>
   )
 }
 
